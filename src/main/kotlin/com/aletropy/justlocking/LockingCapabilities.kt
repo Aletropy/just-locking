@@ -41,7 +41,12 @@ object LockingCapabilities {
 
         // Apply protection to all supported container types
         val targetTypes =
-                listOf(BlockEntityType.CHEST, BlockEntityType.BARREL, BlockEntityType.SHULKER_BOX)
+                listOf(
+                        BlockEntityType.CHEST,
+                        BlockEntityType.TRAPPED_CHEST,
+                        BlockEntityType.BARREL,
+                        BlockEntityType.SHULKER_BOX
+                )
 
         for (type in targetTypes) {
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type) { be, _ ->

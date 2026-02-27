@@ -34,7 +34,7 @@ object ExplosionProtectionHandler {
 
             val be = level.getBlockEntity(pos)
             if (LockDataManager.isLockable(state, be)) {
-                if (LockDataManager.isLocked(level, pos)) {
+                if (LockDataManager.isLocked(level, pos, state, be)) {
                     iterator.remove()
                 }
             }

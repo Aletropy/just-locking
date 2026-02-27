@@ -47,7 +47,8 @@ object LockingCapabilities {
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type) { be, _ ->
                 // Use centralized LockDataManager for consistency and clean checks
                 if (be != null && LockDataManager.isLockable(be.blockState, be)) {
-                    val lockOwner = LockDataManager.getLockOwner(be.level!!, be.blockPos)
+                    val lockOwner =
+                            LockDataManager.getLockOwner(be.level!!, be.blockPos, be.blockState, be)
                     if (lockOwner.isNotEmpty()) {
                         return@registerBlockEntity emptyHandler
                     }

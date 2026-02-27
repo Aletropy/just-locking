@@ -29,7 +29,7 @@ object PistonProtectionHandler {
 
             val be = level.getBlockEntity(pos)
             if (LockDataManager.isLockable(state, be)) {
-                if (LockDataManager.isLocked(level, pos)) {
+                if (LockDataManager.isLocked(level, pos, state, be)) {
                     // Cancel moving the entire structure to prevent bypasses
                     event.isCanceled = true
                     return

@@ -37,6 +37,7 @@ class JustLocking(modEventBus: IEventBus) {
         // Register Interaction Handlers (Forge Bus)
         NeoForge.EVENT_BUS.register(PlayerInteractionHandler)
         NeoForge.EVENT_BUS.register(PlayerBreakHandler)
+        NeoForge.EVENT_BUS.register(com.aletropy.justlocking.events.interaction.BlockPlaceHandler)
 
         // Register Protection Handlers (Forge Bus)
         NeoForge.EVENT_BUS.register(ExplosionProtectionHandler)

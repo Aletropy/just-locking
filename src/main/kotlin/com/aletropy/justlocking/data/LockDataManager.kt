@@ -50,16 +50,19 @@ object LockDataManager {
 
     /** Retrieves the Owner UUID String of the locked block. Empty if not locked. */
     fun getLockOwner(level: Level, pos: BlockPos): String {
-        val state = level.getBlockState(pos)
-        val be = level.getBlockEntity(pos)
+        return getLockOwner(level, pos, level.getBlockState(pos), level.getBlockEntity(pos))
+    }
 
+    /** Optimized overload for when BlockState and BlockEntity are already known. */
+    fun getLockOwner(level: Level, pos: BlockPos, state: BlockState, be: BlockEntity?): String {
         if (be != null &&
                         (be is ChestBlockEntity ||
                                 be is BarrelBlockEntity ||
                                 be is ShulkerBoxBlockEntity)
         ) {
             val lockData = be.getData(LockingAttachments.LOCK_DATA)
-            return lockData.owner
+            return lockData.owner // Note: We don't check neighbors here for ultimate TPS
+            // protection; lock/unlock logic ensures both halves are mirrored.
         }
 
         if (state.`is`(BlockTags.DOORS) && level is ServerLevel) {
@@ -73,6 +76,10 @@ object LockDataManager {
 
     fun isLocked(level: Level, pos: BlockPos): Boolean {
         return getLockOwner(level, pos).isNotEmpty()
+    }
+
+    fun isLocked(level: Level, pos: BlockPos, state: BlockState, be: BlockEntity?): Boolean {
+        return getLockOwner(level, pos, state, be).isNotEmpty()
     }
 
     /** Applies a lock to a block and handles double block linking. */
@@ -168,10 +175,21 @@ object LockDataManager {
      * bypass logic.
      */
     fun canAccess(level: ServerLevel, pos: BlockPos, player: Player): Boolean {
+        return canAccess(level, pos, level.getBlockState(pos), level.getBlockEntity(pos), player)
+    }
+
+    /** Maximum optimization overload. */
+    fun canAccess(
+            level: ServerLevel,
+            pos: BlockPos,
+            state: BlockState,
+            be: BlockEntity?,
+            player: Player
+    ): Boolean {
         // OP bypass
         if (player.hasPermissions(2)) return true
 
-        val owner = getLockOwner(level, pos)
+        val owner = getLockOwner(level, pos, state, be)
         if (owner.isEmpty()) return true
 
         val trustData = TrustData.get(level)

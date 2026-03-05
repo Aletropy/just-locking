@@ -39,9 +39,9 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: v1.0.0
-        name: "Just Locking v1.0.0 - First Release 🚀"
-        body: "Initial release of the highly optimized server-side locking system."
+        tag_name: v1.0.1
+        name: "Just Locking v1.0.1 - Patch 001"
+        body: "Use of mixins to prevent items from being sucked into hoppers and minecarts."
         files: build/libs/*.jar
         draft: false
         prerelease: false

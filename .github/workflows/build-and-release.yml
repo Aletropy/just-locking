@@ -40,9 +40,9 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: v1.0.1
-        name: "Just Locking v1.0.1 - Patch 001"
-        body: "Use of mixins to prevent items from being sucked into hoppers and minecarts."
+        tag_name: v1.0.2
+        name: "Just Locking v1.0.2 - Patch 002"
+        body: "Implemented spectator verification to bypass the lock."
         files: build/libs/*.jar
         draft: false
         prerelease: false

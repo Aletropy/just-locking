@@ -128,7 +128,6 @@ object LockDataManager {
         val state = level.getBlockState(pos)
         val be = level.getBlockEntity(pos)
 
-        // Basically same logic as lockBlock but with empty owner
         if (!isLockable(state, be)) return false
 
         if (be != null &&
@@ -186,8 +185,7 @@ object LockDataManager {
             be: BlockEntity?,
             player: Player
     ): Boolean {
-        // OP bypass
-        if (player.hasPermissions(2)) return true
+        if (player.hasPermissions(2) || player.isSpectator) return true
 
         val owner = getLockOwner(level, pos, state, be)
         if (owner.isEmpty()) return true

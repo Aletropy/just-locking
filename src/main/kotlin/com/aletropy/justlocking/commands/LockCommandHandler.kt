@@ -57,11 +57,9 @@ object LockCommandHandler {
                         )
                     }
                 } else {
-                    // Lock the block and its double-chest pair if applicable
                     if (LockDataManager.lockBlock(level, pos, player.stringUUID)) {
                         player.sendSystemMessage(Component.literal("§aBlock successfully locked!"))
 
-                        // Play tripwire attach sound
                         level.playSound(
                                 null,
                                 pos,
@@ -71,12 +69,10 @@ object LockCommandHandler {
                                 1.0f
                         )
 
-                        // Spawn totem of undying particles server-side to clients
                         if (level is net.minecraft.server.level.ServerLevel) {
                             val centerX = pos.x + 0.5
                             val centerY = pos.y + 0.5
                             val centerZ = pos.z + 0.5
-                            // 10 particles of TOTEM_OF_UNDYING type with small spread
                             level.sendParticles(
                                     net.minecraft.core.particles.ParticleTypes.TOTEM_OF_UNDYING,
                                     centerX,
